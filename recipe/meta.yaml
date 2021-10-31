@@ -1,6 +1,6 @@
 {% set name = "aenum" %}
-{% set version = "3.1.0" %}
-{% set sha256 = "87f0e9ef4f828578ab06af30e4d7944043bf4ecd3f4b7bd1cbe37e2173cde94a" %}
+{% set version = "3.1.1" %}
+{% set sha256 = "75b96aa148e1335eae6c12015563989a675fcbd0bcbd0ae7ce5786329278929b" %}
 
 package:
   name: {{ name|lower }}
