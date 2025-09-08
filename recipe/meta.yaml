@@ -1,36 +1,45 @@
 {% set name = "aenum" %}
-{% set version = "3.1.5" %}
-{% set sha256 = "2ebad8590b6a0183c0d9893523b458edce987ae4533339c5ac185cfac32daf1a" %}
+{% set version = "3.1.16" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://github.com/ethanfurman/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 4c7a5fb76a04ad8dc0c82b13c4cd858b755c69d16c2060a248bf3380a4d1067e
 
 build:
-  number: 1
-  script: pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
     - python
     - pip
-    - setuptools
     - wheel
+    - setuptools
   run:
     - python
+
+# >   test_file = os.path.join(tempdir, 'test_json.json')
+# E   NameError: name 'tempdir' is not defined
+{% set deselect_tests = " --deselect=::TestStackoverflowAnswersV3::test_arduino_headers" %}
+{% set deselect_tests = deselect_tests + " --deselect=::TestStackoverflowAnswers::test_arduino_headers" %}
+{% set deselect_tests = deselect_tests + " --deselect=::TestEnum::test_meta_reconfigure" %}
+{% set deselect_tests = deselect_tests + " --deselect=::test_pickle_dump_load" %}
+{% set deselect_tests = deselect_tests + " --deselect=::test_pickle_exception" %}
 
 test:
   imports:
     - aenum
-  requires:
-    - pip
   commands:
     - pip check
+    - pytest --pyargs aenum.test {{ deselect_tests }}
+  requires:
+    - pip
+    - pytest
+    - pytest-mock
 
 about:
   home: https://github.com/ethanfurman/aenum
@@ -38,6 +47,9 @@ about:
   license_family: BSD
   license_file: aenum/LICENSE
   summary: Advanced Enumerations (compatible with Python's stdlib Enum), NamedTuples, and NamedConstants
+  description: |
+    An Enum is a set of symbolic names (members) bound to unique, constant values.
+    Within an enumeration, the members can be compared by identity, and the enumeration itself can be iterated over.
   dev_url: https://github.com/ethanfurman/aenum
   doc_url: https://github.com/ethanfurman/aenum/blob/master/aenum/doc/aenum.rst
 
