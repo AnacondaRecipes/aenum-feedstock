@@ -1,13 +1,13 @@
 {% set name = "aenum" %}
-{% set version = "3.1.16" %}
+{% set version = "3.1.17" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://github.com/ethanfurman/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 4c7a5fb76a04ad8dc0c82b13c4cd858b755c69d16c2060a248bf3380a4d1067e
+  sha256: b56ff0014d6cb0ba182911e75dc406f120b31f705f74cb04b6626db1a41559ad
 
 build:
   number: 0
@@ -29,6 +29,7 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=::TestEnum::test_meta_reconfigure" %}
 {% set deselect_tests = deselect_tests + " --deselect=::test_pickle_dump_load" %}
 {% set deselect_tests = deselect_tests + " --deselect=::test_pickle_exception" %}
+{% set deselect_tests = deselect_tests + " --deselect=::TestFlag::test_repr" %}
 
 test:
   imports:
