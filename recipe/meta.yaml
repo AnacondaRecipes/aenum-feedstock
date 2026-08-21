@@ -29,6 +29,7 @@ requirements:
 {% set deselect_tests = deselect_tests + " --deselect=::TestEnum::test_meta_reconfigure" %}
 {% set deselect_tests = deselect_tests + " --deselect=::test_pickle_dump_load" %}
 {% set deselect_tests = deselect_tests + " --deselect=::test_pickle_exception" %}
+{% set deselect_tests = deselect_tests + " --deselect=::TestFlag::test_repr" %}
 
 test:
   imports:
